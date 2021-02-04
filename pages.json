@@ -3,10 +3,34 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "应急管理系统"
+				"navigationBarTitleText": "ceshi",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#007AFF",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue7aa",
+							"fontSrc": "/static/iconfont.ttf",
+							"fontSize": "26px",
+							"color": "#FFFFFF",
+							"float": "right"
+						}]
+					}
+				}
 			}
+
 		}
-	],
+	    ,{
+            "path" : "pages/duty/duty",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "值班值守",
+				"navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#007AFF"
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
