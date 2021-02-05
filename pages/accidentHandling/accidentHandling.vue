@@ -1,55 +1,73 @@
 <template>
 	<view>
-		<page-head title="view"></page-head>
 		<view class="uni-padding-wrap uni-common-mt">
 			<view class="uni-flex uni-row">
-				<view class="flex-item uni-bg-red">事故处置</view>
-				<view class="flex-item uni-bg-green">事故统计</view>
-				<view class="flex-item uni-bg-blue">事故总结</view>
+				<view class="flex-item uni-bg-red" @click="click2('chuzhi')">事故处置</view>
+				<view class="flex-item uni-bg-green" @click="click3('shigu')">事故统计</view>
+				<view class="flex-item uni-bg-blue" @click="click4('zongjie')">事故总结</view>
 			</view>
-			<view class="uni-list" v-if="false">
-				<block v-for="(value, index) in listData" :key="index">
-					<view class="uni-list-cell" hover-class="uni-list-cell-hover" @click="goDetail(value)">
-						<view class="uni-media-list">
-							<view class="uni-media-list-body">
-								<view class="uni-media-list-text-top">{{ value.title }}</view>
-								<view class="uni-media-list-text-bottom">
-									<text>{{ value.author_name }}</text>
-									<text>{{ value.published_at }}</text>
+			<mescroll-body v-if="flag2" ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
+				<view class="news-li" v-for="(news,index) in dataList" :key="index">
+					<!-- 一般用法 -->
+					<uni-card :is-shadow="true">
+						<view class="listcontent">
+							<view class="textcontent">
+								<view>
+									<text class="text">{{news.time}}</text>
+								</view>
+								<view>
+									<text class="text">{{news.name}}</text>
+								</view>
+								<view>
+									<text class="texttitle">事故等级：</text>
+									<text class="text">{{news.name}}</text>
+								</view>
+								<view>
+									<text class="texttitle">事故类型：</text>
+									<text class="text">{{news.name}}</text>
+								</view>
+								<view>
+									<text class="texttitle">事故地点：</text>
+									<text class="text">{{news.name}}</text>
 								</view>
 							</view>
 						</view>
-					</view>
-				</block>
-			</view>
-
-			<view>
+                        <view>
+							 <button type="primary">页面主操作 Normal</button>
+						</view>
+					</uni-card>
+				</view>
+			</mescroll-body>
+			<view v-if="flag3">
 				<view class="uni-flex uni-row">
-					<view class="flex-item2 uni-bg-red" @click="click1('shigu')">事故类别</view>
+					<view class="flex-item2 uni-bg-red" @click="click1('leibie')">事故类别</view>
 					<view class="flex-item2 uni-bg-green" @click="click1('shifa')">事发单位</view>
 					<view class="flex-item2 uni-bg-blue" @click="click1('yuefa')">月发数量</view>
 					<view class="flex-item2 uni-bg-blue" @click="click1('tongji')">改进统计</view>
 				</view>
-				<view v-if="flag == 'shigu'">
+				<view v-if="flag5">
 					<!-- 列表 -->
+					<text>事故类别</text>
 				</view>
-				<view v-if="flag == 'shifa'">
+				<view v-if="flag6" class="uni-flex uni-row">
 					<!-- 列表 -->
+					<text>事发单位</text>
+					<view >
+						 <button type="primary" class="botton">页面主操作 Normal</button>
+					</view>
 				</view>
-				<view class="qiun-charts" v-if="flag == 'yuefa'">
+				<view class="qiun-charts" v-if="flag7">
 					<!--#ifdef MP-ALIPAY -->
 					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-					 :style="{'width':cWidth+'px','height':cHeight+'px'}" disable-scroll=true @touchstart="touchLineA" @touchmove="moveLineA"
-					 @touchend="touchEndLineA"></canvas>
+					 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchPie($event,'canvasLineA')"></canvas>
 					<!-- 使用图表拖拽功能时，建议给canvas增加disable-scroll=true属性，在拖拽时禁止屏幕滚动 -->
 					<!--#endif-->
 					<!--#ifndef MP-ALIPAY -->
-					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" disable-scroll=true @touchstart="touchLineA"
-					 @touchmove="moveLineA" @touchend="touchEndLineA"></canvas>
+					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchPie($event,'canvasLineA')"></canvas>
 					<!-- 使用图表拖拽功能时，建议给canvas增加disable-scroll=true属性，在拖拽时禁止屏幕滚动 -->
 					<!--#endif-->
-				</view>{{flag == 'tongji'}}
-				<view class="qiun-charts" v-if = "flag == 'tongji'">
+				</view>
+				<view class="qiun-charts" v-if="flag8">
 					<!--#ifdef MP-ALIPAY -->
 					<canvas canvas-id="canvasPie" id="canvasPie" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
 					 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchPie($event,'canvasPie')"></canvas>
@@ -59,21 +77,40 @@
 					<!--#endif-->
 				</view>
 			</view>
-
+		    <view v-if="flag4">
+				<text>事故总结</text>
+			</view>
 		</view>
 	</view>
 </template>
 <script>
 	import uCharts from '@/components/u-charts/u-charts.js';
+	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
+	//导入网络请>>>>>>>需要加大括号
+	import {
+		getInfo
+	} from "../../api/accidentHandling.js"
 	var _self;
 	var canvasObj = {};
 	export default {
+		mixins: [MescrollMixin], // 使用mixin (在main.js注册全局组件)
 		data() {
 			return {
 				cWidth: '',
 				cHeight: '',
 				pixelRatio: 1,
 				flag: '',
+				flag2: '',
+				flag3: '',
+				flag4: '',
+				flag5: '',
+				flag6: '',
+				flag7: '',
+				flag8: '',
+				downOption: {
+					auto: false
+				}, //是否在初始化后,自动执行downCallback; 默认true
+				dataList: []
 			}
 		},
 		onLoad() {
@@ -100,11 +137,12 @@
 
 			//this.fillData(Data);
 		},
-		onReady() {
-			this.getServerData();
-		},
+		// onReady() {
+			
+		// 	debugger
+		// },
 		methods: {
-			getServerData() {
+			getServerData(type1) {
 				uni.showLoading({
 					title: "正在加载数据..."
 				})
@@ -112,7 +150,7 @@
 					url: 'https://unidemo.dcloud.net.cn/hello-uniapp-ucharts-data.json',
 					data: {},
 					success: function(res) {
-						_self.fillData(res.data);
+						_self.fillData(res.data,type1);
 					},
 					fail: () => {
 						_self.tips = "网络错误，小程序端请检查合法域名";
@@ -123,7 +161,7 @@
 				});
 			},
 			//数据解析
-			fillData(data) {
+			fillData(data,type1) {
 				// this.serverData = data;
 				// this.tips = data.tips;
 				// this.sliderMax = data.Candle.categories.length;
@@ -137,8 +175,12 @@
 				LineA.categories = data.LineA.categories;
 				LineA.series = data.LineA.series;
 				Pie.series = data.Pie.series;
-				this.showLineA("canvasLineA", LineA);
-				this.showPie("canvasPie", Pie);
+				// debugger
+				if(type1 == 1){
+					this.showLineA("canvasLineA", LineA);
+				}else{
+					this.showPie("canvasPie", Pie);
+				}
 			},
 			//折线图
 			showLineA(canvasId, chartData) {
@@ -228,13 +270,103 @@
 				});
 			},
 			click1: function(e) {
-				// debugger
-				this.flag = e
-				
+				switch(e){
+					case 'leibie':
+					this.flag5 = true
+					this.flag6 = false
+					this.flag7 = false
+					this.flag8 = false
+					break
+					case 'shifa':
+					this.flag5 = false
+					this.flag6 = true
+					this.flag7 = false
+					this.flag8 = false
+					break
+					case 'yuefa':
+					this.flag5 = false
+					this.flag6 = false
+					this.flag7 = true
+					this.flag8 = false
+					this.getServerData(1);
+					break
+					case 'tongji':
+					this.flag5 = false
+					this.flag6 = false
+					this.flag7 = false
+					this.flag8 = true
+					this.getServerData(2);
+					break
+					}
 			},
+			click2: function(e) {
+				this.flag2 = true
+				this.flag3 = false
+				this.flag4 = false
+				console.log(e)
+			},
+			click3: function(e) {
+				this.flag3 = true
+				this.flag4 = false
+				this.flag2 = false
+				console.log(e)
+			},
+			click4: function(e) {
+				this.flag4 = true
+				this.flag2 = false
+				this.flag3 = false
+				console.log(e)
+			},
+			downCallback() {
+				//联网加载数据
+				getInfo({
+						ID: Date.now()
+					}, {})
+					.then(res => {
+						this.mescroll.endSuccess();
+						//设置列表数据
+						this.dataList.unshift(res.data.data);
+					})
+					.catch(err => {
+						//联网失败的回调,隐藏下拉刷新的状态
+						this.mescroll.endErr();
+					});
+			},
+			/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
+			upCallback(page) {
+				getInfo({
+						ID: Date.now()
+					}, {
+						pages: page.num,
+						size: page.size
+					})
+					.then(curPageData => {
+						console.log(curPageData.data.data);
+						//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+						//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
 
+						//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+						//this.mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
+
+						//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+						//this.mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
+
+						//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+						//this.mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
+
+						//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据.
+						this.mescroll.endSuccess(curPageData.length);
+
+						//设置列表数据
+						this.dataList = this.dataList.concat(curPageData.data.data);
+					})
+					.catch(err => {
+						//联网失败, 结束加载
+						this.mescroll.endErr();
+					})
+			},
 		},
-	}
+	};
 </script>
 
 <style>
@@ -284,6 +416,10 @@
 		font-size: 26rpx;
 	}
 
+    .botton{
+		width: 33.3%;
+		height: 150rpx;
+	}
 	.desc {
 		/* text-indent: 40rpx; */
 	}
