@@ -22,3 +22,15 @@ export const getInfo = (data,params) => {
 		}
 	})
 }
+
+export const getRightInfo = (data,params) => {
+	return http.middleware({
+		method: 'GET', // 必须大写
+		url: 'goods/getGoods',
+		data: data,
+		params: params,
+		custom: {
+			auth: true
+		}
+	})
+}

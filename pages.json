@@ -45,7 +45,7 @@
             {
                 "navigationBarTitleText": "事故管理",
                 "enablePullDownRefresh": false,
-				"navigationBarBackgroundColor":"#004aa3",
+				"navigationBarBackgroundColor":"#007AFF",
 				"navigationBarTextStyle": "white"
 			}
          },
@@ -53,10 +53,86 @@
             "path" : "pages/assist/assist",
             "style" :                                                                                    
             {
+                "navigationBarTitleText": "应急辅助",
+				"enablePullDownRefresh": true,
+                "navigationBarTextStyle": "white",
+                "navigationBarBackgroundColor": "#007AFF"
+            }
+           
+        },
+		{
+		    "path" : "pages/assist/assistdetail",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "辅助信息详情",
+				"enablePullDownRefresh": true,
+		        "navigationBarTextStyle": "white",
+		        "navigationBarBackgroundColor": "#007AFF"
+		    }
+		   
+		}
+        ,{
+            "path" : "pages/textplan/textplan",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "文本预案",
+               "enablePullDownRefresh": true,
+               "navigationBarTextStyle": "white",
+               "navigationBarBackgroundColor": "#007AFF"
+            }
+            
+        } ,{
+            "path" : "pages/textplandetail/textplandetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "文本预案详情",
+               "enablePullDownRefresh": true,
+               "navigationBarTextStyle": "white",
+               "navigationBarBackgroundColor": "#007AFF"
+            }
+            
+        }
+        ,{
+            "path" : "pages/drill/drill",
+            "style" :                                                                                    
+            {
+              "navigationBarTitleText": "应急演练",
+              "enablePullDownRefresh": true,
+              "navigationBarTextStyle": "white",
+              "navigationBarBackgroundColor": "#007AFF"
+            }
+            
+        }
+        ,{
+            "path" : "pages/drillPlan/drillPlan",
+            "style" :                                                                                    
+            {
+               "navigationBarTitleText": "应急演练详情",
+               "enablePullDownRefresh": true,
+               "navigationBarTextStyle": "white",
+               "navigationBarBackgroundColor": "#007AFF"
+            }
+            
+        }
+        ,{
+            "path" : "pages/drillProgram/drillProgram",
+            "style" :                                                                                    
+            {
+              "navigationBarTitleText": "应急方案详情",
+              "enablePullDownRefresh": true,
+              "navigationBarTextStyle": "white",
+              "navigationBarBackgroundColor": "#007AFF"
+            }
+            
+        }
+        ,{
+            "path" : "pages/drillsummary/drillsummary",
+            "style" :                                                                                    
+            {
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
-           
+            
         }
     ],
 	"globalStyle": {

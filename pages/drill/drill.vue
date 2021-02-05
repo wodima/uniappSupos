@@ -2,62 +2,70 @@
 	<view>
 		<!-- 设置圆角 -->
 		<view class="uni-flex uni-row">
-			<view class="flex-item uni-bg-red" @click="onclick('ASS')">辅助信息库</view>
-			<view class="flex-item uni-bg-green" @click="onclick('HUA')">危化品数据库</view>
+			<view class="flex-item uni-bg-red" @click="onclick('PLAN')">演练计划</view>
+			<view class="flex-item uni-bg-green" @click="onclick('Program')">演练方案</view>
+			<view class="flex-item uni-bg-green" @click="onclick('summary')">演练总结</view>
 		</view>
 		
-		<mescroll-body v-if="flag == 'ASS' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
+		<mescroll-body v-if="flag == 'PLAN' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
 			<view class="news-li" v-for="(news,index) in dataList" :key="index">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
 					<view class="listcontent">
 						<view class="textcontent">
 							<view>
-								<text class="texttitle">值班人员：</text>
-								<text class="text">{{news.name}}</text>
+								<text class="texttitle">危险工艺火灾事故应急演练计划：</text>
 							</view>
 							<view>
-								<text class="texttitle">值班时间：</text>
-								<text class="text">{{news.name}}</text>
+								<text class="text">2020-11-12 至 2020-12-24</text>
 							</view>
-							<view>
-								<text class="texttitle">所属单位：</text>
-								<text class="text">{{news.name}}</text>
-							</view>
-							<view>
-								<text class="texttitle">手机号码：</text>
-								<text class="text">{{news.name}}</text>
-							</view>
+							
 						</view>
 					</view>
 
 				</uni-card>
 			</view>
 		</mescroll-body>
-		<mescroll-body v-if="flag == 'HUA' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downRightCallback" @up="upRightCallback">
+		<mescroll-body v-if="flag == 'Program' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downRightCallback" @up="upRightCallback">
 			<view class="news-li" v-for="(news,index) in dataList" :key="index">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
 					<view class="listcontent">
 						<view class="textcontent">
 							<view>
-								<text class="texttitle">中文名称：</text>
+								<text class="texttitle">火灾救援处置方案：</text>
 								<text class="text">{{news.name}}</text>
 							</view>
 							<view>
-								<text class="texttitle">英文名称：</text>
+								<text class="texttitle">创建单位：</text>
 								<text class="text">{{news.name}}</text>
 							</view>
 							<view>
-								<text class="texttitle">CAS：</text>
+								<text class="texttitle">创建时间：</text>
+								<text class="text">{{news.name}}</text>
+							</view>
+						</view>
+					</view>
+		
+				</uni-card>
+			</view>
+		</mescroll-body>
+		<mescroll-body v-if="flag == 'summary' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downRightCallback" @up="upRightCallback">
+			<view class="news-li" v-for="(news,index) in dataList" :key="index">
+				<!-- 一般用法 -->
+				<uni-card :is-shadow="true">
+					<view class="listcontent">
+						<view class="textcontent">
+							<view>
+								<text class="texttitle">危险工艺火灾事故应急演练总结：</text>
 								<text class="text">{{news.name}}</text>
 							</view>
 							<view>
-								<text class="texttitle">分子量：</text>
+								<text class="texttitle">创建单位：</text>
 								<text class="text">{{news.name}}</text>
 							</view>
 							<view>
-								<text class="texttitle">危险货物编号：</text>
+								<text class="texttitle">开始时间：</text>
 								<text class="text">{{news.name}}</text>
 							</view>
 						</view>
@@ -83,7 +91,7 @@
 					auto: false
 				}, //是否在初始化后,自动执行downCallback; 默认true
 				dataList: [],
-				flag:"ASS"
+				flag:"PLAN"
 			}
 		},
 		onLoad() {
@@ -93,10 +101,6 @@
 		methods: {
 			onclick(res){
 				this.flag = res
-			},
-			//搜索
-			search(res) {
-				console.log("输入的值" + res.value)
 			},
 			/*下拉刷新的回调 */
 			downCallback() {
@@ -202,7 +206,7 @@
 
 <style>
 	.flex-item {
-		width: 180rpx;
+		width: 33.3%;
 		height: 120rpx;
 		
 		text-align: center;
