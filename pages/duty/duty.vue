@@ -2,26 +2,28 @@
 	<view>
 		<!-- 设置圆角 -->
 		<uni-search-bar radius="10" bgColor="#FFFFFF" @confirm="search"></uni-search-bar>
-<button @click="getdata">查询</button>
-		<!-- <mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
-			<view class="notice">本Demo的下拉刷新: 添加新数据到列表顶部</view>
-			<view class="news-li" v-for="news in preferData" :key="news.id">
-				<view>{{news.title}}</view>
-				<view class="new-content">{{news.content}}</view>
+		
+		<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
+			<view class="news-li" v-for="(news,index) in dataList" :key="index">
+				<view>{{news.name}}</view>
+				
 			</view>
-		</mescroll-body> -->
+		</mescroll-body>
 	</view>
 </template>
 
 <script>
+	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	//导入网络请>>>>>>>需要加大括号
 	import {
 		getInfo
 	} from "../../api/duty.js"
 	export default {
+		mixins: [MescrollMixin], // 使用mixin (在main.js注册全局组件)
 		data() {
 			return {
-				preferData: []
+				downOption:{auto:false}, //是否在初始化后,自动执行downCallback; 默认true
+				dataList: []
 			}
 		},
 		onLoad() {
@@ -30,25 +32,58 @@
 		},
 		methods: {
 			//搜索
-			search(res){
-				console.log("输入的值"+res.value)
+			search(res) {
+				console.log("输入的值" + res.value)
 			},
-			//网络请求
-			getdata() {
-				getInfo(
-					{ PRONO: "PRONO" }
-					
-				)
+			/*下拉刷新的回调 */
+			downCallback() {
+				//联网加载数据
+				getInfo({
+						ID: Date.now()
+					},{})
 					.then(res => {
-						console.log('更新用户信息 post success----期望custom 含有custom: 66');
-						console.log(res);
+						this.mescroll.endSuccess();
+						//设置列表数据
+						this.dataList.unshift(res.data.data);
 					})
 					.catch(err => {
-						console.log('更新用户信息 post fail----');
-						console.log(err);
+						//联网失败的回调,隐藏下拉刷新的状态
+						this.mescroll.endErr();
 					});
-				
-			}
+			},
+			/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
+			upCallback(page) {
+				getInfo({
+						ID: Date.now()
+					}, {
+						pages: page.num,
+						size: page.size
+					})
+					.then(curPageData => {
+						console.log(curPageData.data.data);
+						//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+						//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+
+						//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+						//this.mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
+
+						//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+						//this.mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
+
+						//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+						//this.mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
+
+						//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据.
+						this.mescroll.endSuccess(curPageData.length);
+
+						//设置列表数据
+						this.dataList = this.dataList.concat(curPageData.data.data);
+					})
+					.catch(err => {
+						//联网失败, 结束加载
+						this.mescroll.endErr();
+					});
+			},
 		}
 	}
 </script>

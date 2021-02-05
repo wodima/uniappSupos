@@ -11,14 +11,12 @@ import {
  * @param {Object} data - 查询数据
  * @param {Object} params - 查询params参数
  */
-export const getInfo = (data) => {
+export const getInfo = (data,params) => {
 	return http.middleware({
 		method: 'GET', // 必须大写
 		url: 'goods/getGoods',
 		data: data,
-		params: {
-			"type": "selectList"
-		},
+		params: params,
 		custom: {
 			auth: true
 		}
