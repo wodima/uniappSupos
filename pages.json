@@ -39,6 +39,18 @@
             }
             
         }
+        ,{
+            "path" : "pages/accidentHandling/accidentHandling",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "事故管理",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor":"#004aa3",
+				"navigationBarTextStyle": "white"
+				
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
