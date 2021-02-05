@@ -25,18 +25,18 @@
 
 			<view>
 				<view class="uni-flex uni-row">
-					<view class="flex-item2 uni-bg-red" @click = "click1()">事故类别</view>
-					<view class="flex-item2 uni-bg-green"@click = "click2()">事发单位</view>
-					<view class="flex-item2 uni-bg-blue" @click = "click3()">月发数量</view>
-					<view class="flex-item2 uni-bg-blue" @click = "click4()">改进统计</view>
+					<view class="flex-item2 uni-bg-red" @click="click1('shigu')">事故类别</view>
+					<view class="flex-item2 uni-bg-green" @click="click1('shifa')">事发单位</view>
+					<view class="flex-item2 uni-bg-blue" @click="click1('yuefa')">月发数量</view>
+					<view class="flex-item2 uni-bg-blue" @click="click1('tongji')">改进统计</view>
 				</view>
-				<view  v-show="leixing">
+				<view v-if="flag == 'shigu'">
 					<!-- 列表 -->
 				</view>
-				<view  v-show="shifa">
+				<view v-if="flag == 'shifa'">
 					<!-- 列表 -->
 				</view>
-				<view class="qiun-charts" v-if="true" v-show="yuefa">
+				<view class="qiun-charts" v-if="flag == 'yuefa'">
 					<!--#ifdef MP-ALIPAY -->
 					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
 					 :style="{'width':cWidth+'px','height':cHeight+'px'}" disable-scroll=true @touchstart="touchLineA" @touchmove="moveLineA"
@@ -48,8 +48,8 @@
 					 @touchmove="moveLineA" @touchend="touchEndLineA"></canvas>
 					<!-- 使用图表拖拽功能时，建议给canvas增加disable-scroll=true属性，在拖拽时禁止屏幕滚动 -->
 					<!--#endif-->
-				</view>
-				<view class="qiun-charts" v-if="true" v-show="tongji">
+				</view>{{flag == 'tongji'}}
+				<view class="qiun-charts" v-if = "flag == 'tongji'">
 					<!--#ifdef MP-ALIPAY -->
 					<canvas canvas-id="canvasPie" id="canvasPie" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
 					 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchPie($event,'canvasPie')"></canvas>
@@ -73,6 +73,7 @@
 				cWidth: '',
 				cHeight: '',
 				pixelRatio: 1,
+				flag: '',
 			}
 		},
 		onLoad() {
@@ -219,46 +220,20 @@
 					},
 				});
 			},
-		    touchPie(e, id) {
-		    	canvasObj[id].showToolTip(e, {
-		    		format: function(item) {
-		    			return item.name + ':' + item.data
-		    		}
-		    	});
-		    },
-		//     click1:function(){
-		// 		setShow(leixing)
-		// 	},
-		// 	click2:function(){
-		// 		setShow(shifa)
-		// 	},
-		// 	click3:function(){
-		// 		setShow(yuefa)
-		// 	},
-		// 	click4:function(){
-		// 		setShow(tongji)
-		// 	},
-		// 	setShow(e){
-		// 		switch(e){
-		// 			case leixing:
-		// 			this.leixing = true
-		// 			break
-		// 			case shifa:
-		// 			this.shifa = true
-		// 			break
-		// 			case yuefa:
-		// 			this.yuefa = true
-		// 			break
-		// 			case tongji:
-		// 			this.tongji = true
-		// 			break
-		// 		}
-		// 		this.leixing = false
-		// 		this.shifa = !this.shifa
-		// 		this.yuefa = !this.yuefa
-		// 		this.tongji = !this.tongji
-		// }
-	},
+			touchPie(e, id) {
+				canvasObj[id].showToolTip(e, {
+					format: function(item) {
+						return item.name + ':' + item.data
+					}
+				});
+			},
+			click1: function(e) {
+				// debugger
+				this.flag = e
+				
+			},
+
+		},
 	}
 </script>
 
