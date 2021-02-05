@@ -47,9 +47,16 @@
                 "enablePullDownRefresh": false,
 				"navigationBarBackgroundColor":"#004aa3",
 				"navigationBarTextStyle": "white"
-				
+			}
+         },
+		 {
+            "path" : "pages/assist/assist",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
             }
-            
+           
         }
     ],
 	"globalStyle": {

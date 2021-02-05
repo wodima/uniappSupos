@@ -1,8 +1,11 @@
 <template>
 	<view>
 		<!-- 设置圆角 -->
-		<uni-search-bar radius="10" bgColor="#FFFFFF" @confirm="search"></uni-search-bar>
-
+		<view class="view-btn">
+			<button>ceshi</button>
+			<button>ceshi</button>
+		</view>
+		
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
 			<view class="news-li" v-for="(news,index) in dataList" :key="index">
 				<!-- 一般用法 -->
@@ -39,7 +42,7 @@
 	//导入网络请>>>>>>>需要加大括号
 	import {
 		getInfo
-	} from "../../api/duty.js"
+	} from "../../api/assist.js"
 	export default {
 		mixins: [MescrollMixin], // 使用mixin (在main.js注册全局组件)
 		data() {
