@@ -9,7 +9,7 @@
 			<mescroll-body v-if="flag2" ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
 				<view class="news-li" v-for="(news,index) in dataList" :key="index">
 					<!-- 一般用法 -->
-					<uni-card :is-shadow="true">
+					<uni-card :is-shadow="true" class="uni-flex uni-row">
 						<view class="listcontent">
 							<view class="textcontent">
 								<view>
@@ -32,9 +32,9 @@
 								</view>
 							</view>
 						</view>
-                        <view>
-							 <button type="primary">页面主操作 Normal</button>
-						</view>
+                       <view >
+                       	 <button type="primary" class="botton">处置</button>
+                       </view>
 					</uni-card>
 				</view>
 			</mescroll-body>
@@ -49,12 +49,9 @@
 					<!-- 列表 -->
 					<text>事故类别</text>
 				</view>
-				<view v-if="flag6" class="uni-flex uni-row">
+				<view v-if="flag6">
 					<!-- 列表 -->
 					<text>事发单位</text>
-					<view >
-						 <button type="primary" class="botton">页面主操作 Normal</button>
-					</view>
 				</view>
 				<view class="qiun-charts" v-if="flag7">
 					<!--#ifdef MP-ALIPAY -->
@@ -417,8 +414,11 @@
 	}
 
     .botton{
-		width: 33.3%;
-		height: 150rpx;
+		width: 120rpx;
+		height: 60rpx;
+		line-height: 60rpx;
+		border-radius: 30rpx;
+		font-size: 26rpx
 	}
 	.desc {
 		/* text-indent: 40rpx; */
