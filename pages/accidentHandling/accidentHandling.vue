@@ -9,11 +9,11 @@
 			<mescroll-body v-if="flag2" ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
 				<view class="news-li" v-for="(news,index) in dataList" :key="index">
 					<!-- 一般用法 -->
-					<uni-card :is-shadow="true">
-						<view class="listcontent">
+					<uni-card :is-shadow="true" class="">
+						<view class="listcontent uni-flex uni-row" style="-webkit-justify-content: space-between;justify-content: space-between;">
 							<view class="textcontent">
 								<view>
-									<text class="text">{{news.time}}</text>
+									<text class="text">{{news.name}}</text>
 								</view>
 								<view>
 									<text class="text">{{news.name}}</text>
@@ -31,10 +31,11 @@
 									<text class="text">{{news.name}}</text>
 								</view>
 							</view>
+							<view class="buttom-style">
+								<button type="primary" class="botton">处置</button>
+							</view>
 						</view>
-                        <view>
-							 <button type="primary">页面主操作 Normal</button>
-						</view>
+
 					</uni-card>
 				</view>
 			</mescroll-body>
@@ -49,12 +50,9 @@
 					<!-- 列表 -->
 					<text>事故类别</text>
 				</view>
-				<view v-if="flag6" class="uni-flex uni-row">
+				<view v-if="flag6">
 					<!-- 列表 -->
 					<text>事发单位</text>
-					<view >
-						 <button type="primary" class="botton">页面主操作 Normal</button>
-					</view>
 				</view>
 				<view class="qiun-charts" v-if="flag7">
 					<!--#ifdef MP-ALIPAY -->
@@ -77,7 +75,7 @@
 					<!--#endif-->
 				</view>
 			</view>
-		    <view v-if="flag4">
+			<view v-if="flag4">
 				<text>事故总结</text>
 			</view>
 		</view>
@@ -100,7 +98,7 @@
 				cHeight: '',
 				pixelRatio: 1,
 				flag: '',
-				flag2: '',
+				flag2: 'chuzhi',
 				flag3: '',
 				flag4: '',
 				flag5: '',
@@ -138,7 +136,7 @@
 			//this.fillData(Data);
 		},
 		// onReady() {
-			
+
 		// 	debugger
 		// },
 		methods: {
@@ -150,7 +148,7 @@
 					url: 'https://unidemo.dcloud.net.cn/hello-uniapp-ucharts-data.json',
 					data: {},
 					success: function(res) {
-						_self.fillData(res.data,type1);
+						_self.fillData(res.data, type1);
 					},
 					fail: () => {
 						_self.tips = "网络错误，小程序端请检查合法域名";
@@ -161,7 +159,7 @@
 				});
 			},
 			//数据解析
-			fillData(data,type1) {
+			fillData(data, type1) {
 				// this.serverData = data;
 				// this.tips = data.tips;
 				// this.sliderMax = data.Candle.categories.length;
@@ -176,9 +174,9 @@
 				LineA.series = data.LineA.series;
 				Pie.series = data.Pie.series;
 				// debugger
-				if(type1 == 1){
+				if (type1 == 1) {
 					this.showLineA("canvasLineA", LineA);
-				}else{
+				} else {
 					this.showPie("canvasPie", Pie);
 				}
 			},
@@ -270,34 +268,34 @@
 				});
 			},
 			click1: function(e) {
-				switch(e){
+				switch (e) {
 					case 'leibie':
-					this.flag5 = true
-					this.flag6 = false
-					this.flag7 = false
-					this.flag8 = false
-					break
+						this.flag5 = true
+						this.flag6 = false
+						this.flag7 = false
+						this.flag8 = false
+						break
 					case 'shifa':
-					this.flag5 = false
-					this.flag6 = true
-					this.flag7 = false
-					this.flag8 = false
-					break
+						this.flag5 = false
+						this.flag6 = true
+						this.flag7 = false
+						this.flag8 = false
+						break
 					case 'yuefa':
-					this.flag5 = false
-					this.flag6 = false
-					this.flag7 = true
-					this.flag8 = false
-					this.getServerData(1);
-					break
+						this.flag5 = false
+						this.flag6 = false
+						this.flag7 = true
+						this.flag8 = false
+						this.getServerData(1);
+						break
 					case 'tongji':
-					this.flag5 = false
-					this.flag6 = false
-					this.flag7 = false
-					this.flag8 = true
-					this.getServerData(2);
-					break
-					}
+						this.flag5 = false
+						this.flag6 = false
+						this.flag7 = false
+						this.flag8 = true
+						this.getServerData(2);
+						break
+				}
 			},
 			click2: function(e) {
 				this.flag2 = true
@@ -416,10 +414,28 @@
 		font-size: 26rpx;
 	}
 
-    .botton{
-		width: 33.3%;
-		height: 150rpx;
+	.botton {
+		width: 120rpx;
+		height: 60rpx;
+		line-height: 60rpx;
+		border-radius: 30rpx;
+		font-size: 26rpx;
+		vertical-align:auto;
 	}
+
+	.buttom-style {
+		height: 100%;
+	}
+
+	.listcontent {
+		width: 100%;
+		display: flex;
+	}
+
+	.textcontent {
+		text-align: left;
+	}
+
 	.desc {
 		/* text-indent: 40rpx; */
 	}
