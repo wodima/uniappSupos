@@ -7,7 +7,7 @@
 		</view>
 		
 		<mescroll-body v-if="flag == 'ASS' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
-			<view class="news-li" v-for="(news,index) in dataList" :key="index">
+			<view class="news-li" v-for="(news,index) in dataList" :key="index" @click="assClick(index)">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
 					<view class="listcontent">
@@ -35,7 +35,7 @@
 			</view>
 		</mescroll-body>
 		<mescroll-body v-if="flag == 'HUA' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downRightCallback" @up="upRightCallback">
-			<view class="news-li" v-for="(news,index) in dataList" :key="index">
+			<view class="news-li" v-for="(news,index) in dataList" :key="index" @click="huaClick">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
 					<view class="listcontent">
@@ -93,6 +93,18 @@
 		methods: {
 			onclick(res){
 				this.flag = res
+			},
+			//跳转辅助信息库
+			assClick(res){
+				//辅助信息库
+				uni.navigateTo({
+					url: './../assistdetail/assistdetail'
+				});
+			},
+			//跳转危化品
+			huaClick(res){
+				//辅助信息库
+				
 			},
 			//搜索
 			search(res) {

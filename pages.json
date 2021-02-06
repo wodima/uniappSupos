@@ -3,7 +3,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "ceshi",
+				"navigationBarTitleText": "Supos",
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#007AFF",
 				"app-plus": {
@@ -107,7 +107,7 @@
             "path" : "pages/drillPlan/drillPlan",
             "style" :                                                                                    
             {
-               "navigationBarTitleText": "应急演练详情",
+               "navigationBarTitleText": "演练计划详情",
                "enablePullDownRefresh": true,
                "navigationBarTextStyle": "white",
                "navigationBarBackgroundColor": "#007AFF"
@@ -118,7 +118,7 @@
             "path" : "pages/drillProgram/drillProgram",
             "style" :                                                                                    
             {
-              "navigationBarTitleText": "应急方案详情",
+              "navigationBarTitleText": "演练方案详情",
               "enablePullDownRefresh": true,
               "navigationBarTextStyle": "white",
               "navigationBarBackgroundColor": "#007AFF"
@@ -129,7 +129,7 @@
             "path" : "pages/drillsummary/drillsummary",
             "style" :                                                                                    
             {
-              "navigationBarTitleText": "应急总结详情",
+              "navigationBarTitleText": "演练总结详情",
               "enablePullDownRefresh": true,
               "navigationBarTextStyle": "white",
               "navigationBarBackgroundColor": "#007AFF"
@@ -194,7 +194,7 @@
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "Supos",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	}

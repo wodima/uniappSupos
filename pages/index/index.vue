@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<map class="map" src="/static/logo.png"></map>
+		<map class="map" :latitude="latitude" :longitude="longitude" :markers="covers"></map>
 		<text class="title">应急管理</text>
 
 		<view class="example-body">
@@ -36,6 +36,24 @@
 		data() {
 			return {
 				title: 'Hello',
+				longitude:'120.184937',
+				latitude:'30.186683',
+				covers: [{
+				                latitude: 30.186683,
+				                longitude: 120.184937,
+				                iconPath: '../../static/map_red.png',
+								label:{
+									x:10,
+									y:1,
+									content:"测试点位",
+										color:"#FF0000",
+										bgColor:"#999999"
+								}
+				            }, {
+				                latitude: 30.186613,
+				                longitude: 120.182247,
+				                iconPath: '../../static/map_green.png'
+				            }],
 				list: [{
 						url: '/static/icon_accident.png',
 						text: '事故管理',
@@ -153,7 +171,7 @@
 	}
 
 	.map {
-		height: 300rpx;
+		height: 400rpx;
 		width: 100%;
 		margin-top: 10rpx;
 		margin-left: auto;

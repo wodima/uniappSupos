@@ -8,7 +8,7 @@
 		</view>
 		
 		<mescroll-body v-if="flag == 'PLAN' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
-			<view class="news-li" v-for="(news,index) in dataList" :key="index">
+			<view class="news-li" v-for="(news,index) in dataList" :key="index" @click="planClick(index)">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
 					<view class="listcontent">
@@ -27,7 +27,7 @@
 			</view>
 		</mescroll-body>
 		<mescroll-body v-if="flag == 'Program' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downRightCallback" @up="upRightCallback">
-			<view class="news-li" v-for="(news,index) in dataList" :key="index">
+			<view class="news-li" v-for="(news,index) in dataList" :key="index" @click="drillClick(index)">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
 					<view class="listcontent">
@@ -51,7 +51,7 @@
 			</view>
 		</mescroll-body>
 		<mescroll-body v-if="flag == 'summary' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downRightCallback" @up="upRightCallback">
-			<view class="news-li" v-for="(news,index) in dataList" :key="index">
+			<view class="news-li" v-for="(news,index) in dataList" :key="index" @click="drillClick(index)">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
 					<view class="listcontent">
@@ -101,6 +101,25 @@
 		methods: {
 			onclick(res){
 				this.flag = res
+			},
+			drillClick(res){
+				if(this.flag=='PLAN'){
+					//演练计划
+					uni.navigateTo({
+						url: './../drillPlan/drillPlan'
+					});
+				}else if(this.flag=='Program'){
+					//演练方案
+					uni.navigateTo({
+						url: './../drillProgram/drillProgram'
+					});
+				}else if(this.flag=='summary'){
+					//演练总结
+					uni.navigateTo({
+						url: './../drillsummary/drillsummary'
+					});
+				}
+				
 			},
 			/*下拉刷新的回调 */
 			downCallback() {

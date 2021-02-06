@@ -4,9 +4,9 @@
 		<uni-search-bar radius="10" bgColor="#FFFFFF" @confirm="search"></uni-search-bar>
 
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
-			<view class="news-li" v-for="(news,index) in dataList" :key="index">
+			<view class="news-li" v-for="(news,index) in dataList" :key="index" @click="clicks(index)">
 				<!-- 一般用法 -->
-				<uni-card :is-shadow="true">
+				<uni-card :is-shadow="true" >
 					<view class="listcontent">
 						<view class="textcontent">
 							<view>
@@ -58,6 +58,11 @@
 			//搜索
 			search(res) {
 				console.log("输入的值" + res.value)
+				this.downCallback()
+			},
+			clicks(index){
+				console.log("输入==的值"+index)
+			
 			},
 			/*下拉刷新的回调 */
 			downCallback() {
@@ -68,7 +73,7 @@
 					.then(res => {
 						this.mescroll.endSuccess();
 						//设置列表数据
-						this.dataList.unshift(res.data.data);
+						this.dataList = res.data.data;
 					})
 					.catch(err => {
 						//联网失败的回调,隐藏下拉刷新的状态
