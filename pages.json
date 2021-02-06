@@ -61,7 +61,7 @@
            
         },
 		{
-		    "path" : "pages/assist/assistdetail",
+		    "path" : "pages/assistdetail/assistdetail",
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "辅助信息详情",
@@ -129,8 +129,43 @@
             "path" : "pages/drillsummary/drillsummary",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
+              "navigationBarTitleText": "应急总结详情",
+              "enablePullDownRefresh": true,
+              "navigationBarTextStyle": "white",
+              "navigationBarBackgroundColor": "#007AFF"
+            }
+            
+        } ,{
+            "path" : "pages/resources/resources",
+            "style" :                                                                                    
+            {
+              "navigationBarTitleText": "应急资源",
+              "enablePullDownRefresh": true,
+              "navigationBarTextStyle": "white",
+              "navigationBarBackgroundColor": "#007AFF"
+            }
+            
+        }
+		
+        ,{
+            "path" : "pages/device/device",
+            "style" :                                                                                    
+            {
+               "navigationBarTitleText": "设备设施状况",
+               "enablePullDownRefresh": true,
+               "navigationBarTextStyle": "white",
+               "navigationBarBackgroundColor": "#007AFF"
+            }
+            
+        }
+        ,{
+            "path" : "pages/energy/energy",
+            "style" :                                                                                    
+            {
+               "navigationBarTitleText": "能源统计分析",
+               "enablePullDownRefresh": true,
+               "navigationBarTextStyle": "white",
+               "navigationBarBackgroundColor": "#007AFF"
             }
             
         }

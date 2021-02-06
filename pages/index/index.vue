@@ -14,9 +14,9 @@
 			</uni-grid>
 		</view>
 		<text class="title">能源统计</text>
-		
+
 		<view class="example-body">
-			<uni-grid :column="2" :showBorder="false" :square="false" :highlight="false" @change="change">
+			<uni-grid :column="2" :showBorder="false" :square="false" :highlight="false" @change="change2">
 				<uni-grid-item v-for="(item, index) in listTwo" :index="index" :key="index">
 					<view class="grid-item-box">
 						<image :src="item.url" class="image" mode="aspectFill" />
@@ -37,53 +37,103 @@
 			return {
 				title: 'Hello',
 				list: [{
-						url: '/static/logo.png',
-						text: 'Grid',
+						url: '/static/icon_accident.png',
+						text: '事故管理',
 
 					},
 					{
-						url: '/static/logo.png',
-						text: 'Grid 2',
+						url: '/static/icon_duty.png',
+						text: '值班值守',
 
 					},
 					{
-						url: '/static/logo.png',
-						text: 'Grid 3',
+						url: '/static/icon_assist.png',
+						text: '应急辅助',
 
 					},
 					{
-						url: '/static/logo.png',
-						text: 'Grid 4',
+						url: '/static/icon_textplan.png',
+						text: '文本预案',
 
 					},
 					{
-						url: '/static/logo.png',
-						text: 'Grid 5'
+						url: '/static/icon_drill.png',
+						text: '应急演练'
 					},
 					{
-						url: '/static/logo.png',
-						text: 'Grid 6'
+						url: '/static/icon_resource.png',
+						text: '应急资源'
 					}
 				],
 				listTwo: [{
-						url: '/static/logo.png',
-						text: 'Grid',
-				
+						url: '/static/icon_device.png',
+						text: '设备设施状况',
+
 					},
 					{
-						url: '/static/logo.png',
-						text: 'Grid 2',
-				
-					}]
+						url: '/static/icon_energy.png',
+						text: '能源统计分析',
+
+					}
+				]
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
-			change() {
-
-			}
+			change(e) {
+				let {
+					index
+				} = e.detail
+				if (index == 0) {
+					//事故管理
+					uni.navigateTo({
+						url: './../accidentHandling/accidentHandling'
+					});
+				} else if (index == 1) {
+					//值班值守
+					uni.navigateTo({
+						url: './../duty/duty'
+					});
+				}else if (index == 2) {
+					//应急辅助
+					uni.navigateTo({
+						url: './../assist/assist'
+					});
+				}else if (index == 3) {
+					//文本预案
+					uni.navigateTo({
+						url: './../textplan/textplan'
+					});
+				}else if (index == 4) {
+					//应急演练
+					uni.navigateTo({
+						url: './../drill/drill'
+					});
+				}else if (index == 5) {
+					//应急资源
+					uni.navigateTo({
+						url: './../resources/resources'
+					});
+				}
+			},
+			change2(e){
+				let {
+					index
+				} = e.detail
+				if (index == 0) {
+					//应急资源
+					uni.navigateTo({
+						url: './../device/device'
+					});
+				}else if (index == 1) {
+					//应急资源
+					uni.navigateTo({
+						url: './../energy/energy'
+					});
+				}
+			}		
 		},
 		comments: {
 			components: {
