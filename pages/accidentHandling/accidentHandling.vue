@@ -9,8 +9,8 @@
 			<mescroll-body v-if="flag2" ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
 				<view class="news-li" v-for="(news,index) in dataList" :key="index">
 					<!-- 一般用法 -->
-					<uni-card :is-shadow="true" class="">
-						<view class="listcontent uni-flex uni-row" style="-webkit-justify-content: space-between;justify-content: space-between;">
+					<uni-card :is-shadow="true">
+						<view class="listcontent uni-flex uni-row view-style" style="-webkit-justify-content: space-between;justify-content: space-between;">
 							<view class="textcontent">
 								<view>
 									<text class="text">{{news.name}}</text>
@@ -31,8 +31,10 @@
 									<text class="text">{{news.name}}</text>
 								</view>
 							</view>
-							<view class="buttom-style">
-								<button type="primary" class="botton">处置</button>
+							<view class="buttom-style2">
+								<router-link :to="{path:'./../accidentHandling/accidentHandlingDetail',query:{id:1}}">
+									<button type="primary" class="botton">处置</button>
+								</router-link>
 							</view>
 						</view>
 
@@ -48,11 +50,68 @@
 				</view>
 				<view v-if="flag5">
 					<!-- 列表 -->
-					<text>事故类别</text>
+					<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
+						<view class="news-li" v-for="(news,index) in dataList" :key="index">
+							<!-- 一般用法 -->
+							<uni-card :is-shadow="true">
+								<view class="listcontent uni-flex uni-row view-style" style="-webkit-justify-content: space-between;justify-content: space-between;">
+									<view class="textcontent">
+										<view>
+											<text class="texttitle">序号：</text>
+											<text class="text">{{news.name}}</text>
+										</view>
+										<view>
+											<text class="texttitle">事件类别：</text>
+											<text class="text">{{news.name}}</text>
+										</view>
+										<view>
+											<text class="texttitle">数量：</text>
+											<text class="text">{{news.name}}</text>
+										</view>
+									</view>
+									<view class="buttom-style">
+										<router-link :to="{path:'./../accidentHandling/accidentSummaryDetails',query:{id:1}}">
+											<image class="img-style" src="../../static/arrow-right.png" href=""></image>
+										</router-link>
+
+									</view>
+								</view>
+
+							</uni-card>
+						</view>
+					</mescroll-body>
 				</view>
 				<view v-if="flag6">
 					<!-- 列表 -->
-					<text>事发单位</text>
+					<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
+						<view class="news-li" v-for="(news,index) in dataList" :key="index">
+							<!-- 一般用法 -->
+							<uni-card :is-shadow="true">
+								<view class="listcontent uni-flex uni-row view-style" style="-webkit-justify-content: space-between;justify-content: space-between;">
+									<view class="textcontent">
+										<view>
+											<text class="texttitle">序号：</text>
+											<text class="text">{{news.name}}</text>
+										</view>
+										<view>
+											<text class="texttitle">事件类别：</text>
+											<text class="text">{{news.name}}</text>
+										</view>
+										<view>
+											<text class="texttitle">数量：</text>
+											<text class="text">{{news.name}}</text>
+										</view>
+									</view>
+									<view class="buttom-style">
+										<router-link :to="{path:'./../accidentHandling/accidentSummaryDetails',query:{id:1}}">
+											<image class="img-style" src="../../static/arrow-right.png"></image>
+										</router-link>
+									</view>
+								</view>
+
+							</uni-card>
+						</view>
+					</mescroll-body>
 				</view>
 				<view class="qiun-charts" v-if="flag7">
 					<!--#ifdef MP-ALIPAY -->
@@ -76,7 +135,33 @@
 				</view>
 			</view>
 			<view v-if="flag4">
-				<text>事故总结</text>
+				<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
+					<view class="news-li" v-for="(news,index) in dataList" :key="index">
+						<!-- 一般用法 -->
+						<uni-card :is-shadow="true">
+							<view class="listcontent uni-flex uni-row view-style" style="-webkit-justify-content: space-between;justify-content: space-between;">
+								<view class="textcontent">
+									<view>
+										<text class="text">{{news.name}}</text>
+									</view>
+									<view>
+										<text class="text">{{news.name}}</text>
+									</view>
+									<view>
+										<text class="texttitle">事故单位：</text>
+										<text class="text">{{news.name}}</text>
+									</view>
+								</view>
+								<view class="buttom-style">
+									<router-link :to="{path:'./../accidentHandling/accidentSummaryDetails',query:{id:1}}">
+										<image class="img-style" src="../../static/arrow-right.png"></image>
+									</router-link>
+								</view>
+							</view>
+
+						</uni-card>
+					</view>
+				</mescroll-body>
 			</view>
 		</view>
 	</view>
@@ -305,6 +390,7 @@
 			},
 			click3: function(e) {
 				this.flag3 = true
+				this.flag5 = true
 				this.flag4 = false
 				this.flag2 = false
 				console.log(e)
@@ -404,11 +490,11 @@
 	}
 
 	.text {
-		margin: 15rpx 10rpx;
-		padding: 0 20rpx;
+		margin: 15rpx auto;
+		padding: 0 10rpx;
 		background-color: #ebebeb;
 		height: 70rpx;
-		line-height: 70rpx;
+		/* 		line-height: 70rpx; */
 		text-align: center;
 		color: #777;
 		font-size: 26rpx;
@@ -420,11 +506,29 @@
 		line-height: 60rpx;
 		border-radius: 30rpx;
 		font-size: 26rpx;
-		vertical-align:auto;
 	}
 
 	.buttom-style {
-		height: 100%;
+		width: 10%;
+		margin-top: 55rpx;
+		align-items: center;
+		justify-content: center;
+		/* flex: 1;
+		justify-content: center;
+		align-items: center; */
+		/* height: 15%; */
+	}
+
+	.buttom-style2 {
+		width: 15%;
+		margin-top: 70rpx;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.img-style {
+		width: 40rpx;
+		height: 50rpx;
 	}
 
 	.listcontent {
@@ -438,5 +542,6 @@
 
 	.desc {
 		/* text-indent: 40rpx; */
+
 	}
 </style>

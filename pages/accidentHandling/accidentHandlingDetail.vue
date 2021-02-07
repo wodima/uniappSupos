@@ -7,7 +7,7 @@
 				<text>小型氯气泄露</text>
 			</view>
 			<view>
-				<button type="primary" class="botton">派单</button>
+				<button type="primary" class="botton-style">派单</button>
 			</view>
 		</view>
 		<text class="item-2">已选救援队伍</text>
@@ -16,7 +16,7 @@
 			<view class="news-li mecscroll-style uni-flex uni-row" v-for="(news,index) in dataList" :key="index">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
-					<view class="listcontent">
+					<view class="listcontent uni-flex uni-row" style="-webkit-justify-content: space-between;justify-content: space-between;">
 						<view class="textcontent">
 							<view>
 								<text class="text">{{news.time}}</text>
@@ -34,10 +34,11 @@
 								<text class="text">{{news.name}}</text>
 							</view>
 						</view>
-					</view>
 					<view>
 						<button type="primary" class="botton">移除</button>
 					</view>
+					</view>
+					
 				</uni-card>
 			</view>
 		</mescroll-body>
@@ -196,9 +197,18 @@
 		line-height: 60rpx;
 		border-radius: 30rpx;
 		font-size: 26rpx;
-		margin-top: 10rpx;
+		margin-top: 45rpx;
 		align-items: center;
 		background-color: #FF3333;
+	}
+	.botton-style {
+		width: 120rpx;
+		height: 60rpx;
+		line-height: 60rpx;
+		border-radius: 30rpx;
+		font-size: 26rpx;
+		margin-top: 10rpx;
+		align-items: center;
 	}
 
 	.item-1 {
@@ -214,6 +224,6 @@
 	}
 
 	.mecscroll-style {
-		height: 200rpx;
+		height: 50%;
 	}
 </style>
