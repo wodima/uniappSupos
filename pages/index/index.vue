@@ -1,5 +1,18 @@
 <template>
 	<view class="content">
+		<uni-nav-bar   backgroundColor = "#007AFF" color="#FFFFFF" :fixed="true" :status-bar="true" shadow = "false" title="Supos">
+			<block slot="right">
+				<view class="login" @click="login">
+					<view>
+						<image v-if="title==''" class="title-image" src="../../static/icon_my.png"></image>
+						<text  v-if="title!=''" class="uni-nav-bar-text">{{title}}</text></view>
+				</view>
+			</block>
+		</uni-nav-bar>
+  <view class="content">
+    <chunLei-popups v-model="value" :popData="data1"  @tapPopup="tapPopup" :x="344" :y="30" placement="top-end">
+        </chunLei-popups>
+  </view>
 		<map class="map" :latitude="latitude" :longitude="longitude" :markers="covers"></map>
 		<text class="title">应急管理</text>
 
@@ -31,11 +44,19 @@
 <script>
 	import uniGrid from "@/components/uni-grid/uni-grid.vue"
 	import uniGridItem from "@/components/uni-grid-item/uni-grid-item.vue"
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
+	import chunLeiPopups from "@/components/chunLei-popups/chunLei-popups.vue";
+
 
 	export default {
 		data() {
 			return {
-				title: 'Hello',
+				title: '',
+				value :false,
+				data1:[
+					{
+						title:'退出'
+					}],
 				longitude:'120.184937',
 				latitude:'30.186683',
 				covers: [{
@@ -100,6 +121,15 @@
 
 		},
 		methods: {
+			login(){
+				this.title = "hell"
+				this.value = !this.value
+			},
+			tapPopup(){
+				uni.redirectTo({
+					url:'../login/login'
+				})
+			},
 			change(e) {
 				let {
 					index
@@ -152,17 +182,40 @@
 					});
 				}
 			}		
-		},
-		comments: {
+		}, 
 			components: {
 				uniGrid,
-				uniGridItem
+				uniGridItem,
+				uniNavBar,
+				chunLeiPopups
 			}
-		}
 	}
 </script>
 
 <style>
+	.login{
+		height: 80rpx;
+		width: 80rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+	}
+	.uni-nav-bar-text{
+		font-size: 30rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+	}
+	.title-image{
+		width: 30rpx;
+		height: 30rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+	}
 	.content {
 		display: flex;
 		flex-direction: column;
