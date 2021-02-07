@@ -4,9 +4,9 @@
 			 <input class="uni-input" focus placeholder="请输入用户名" />
 		</view>
 		<view class="account ">
-			 <input class="uni-input" focus placeholder="请输入密码" />
+			 <input class="uni-input" password="true" focus placeholder="请输入密码" />
 		</view>
-		<button class="button" type="primary">登陆</button>
+		<button class="button" type="primary" @click="login">登陆</button>
 	</view>
 </template>
 
@@ -18,7 +18,11 @@
 			}
 		},
 		methods: {
-			
+			login(){
+				uni.redirectTo({
+					url:'../index/index'
+				})
+			}
 		}
 	}
 </script>

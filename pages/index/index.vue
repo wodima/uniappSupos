@@ -2,20 +2,20 @@
 	<view class="content">
 		<uni-nav-bar   backgroundColor = "#007AFF" color="#FFFFFF" :fixed="true" :status-bar="true" shadow = "false" title="Supos">
 			<block slot="right">
-				<view class="login" @click="login">
+				<view id="rightcentent" class="login" @click="login">
 					<view>
 						<image v-if="title==''" class="title-image" src="../../static/icon_my.png"></image>
 						<text  v-if="title!=''" class="uni-nav-bar-text">{{title}}</text></view>
 				</view>
 			</block>
 		</uni-nav-bar>
-  <view class="content">
-    <chunLei-popups v-model="value" :popData="data1"  @tapPopup="tapPopup" :x="344" :y="30" placement="top-end">
-        </chunLei-popups>
-  </view>
+
 		<map class="map" :latitude="latitude" :longitude="longitude" :markers="covers"></map>
 		<text class="title">应急管理</text>
-
+	<!-- 对话框 -->
+	<uni-popup id="popupDialog" ref="popupDialog" type="dialog" @change="changePop">
+		<uni-popup-dialog  type="warn" title="退出登陆"   @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
+	</uni-popup>
 		<view class="example-body">
 			<uni-grid :column="3" :showBorder="false" :square="false" :highlight="false" @change="change">
 				<uni-grid-item v-for="(item, index) in list" :index="index" :key="index">
@@ -45,7 +45,7 @@
 	import uniGrid from "@/components/uni-grid/uni-grid.vue"
 	import uniGridItem from "@/components/uni-grid-item/uni-grid-item.vue"
 	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
-	import chunLeiPopups from "@/components/chunLei-popups/chunLei-popups.vue";
+import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 
 
 	export default {
@@ -122,13 +122,40 @@
 		},
 		methods: {
 			login(){
-				this.title = "hell"
+				if(this.title==''){
+					this.title = "hell"
+				}else{
+					this.title = ""
+				}
+				
 				this.value = !this.value
+				this.$refs.popupDialog.open()
 			},
-			tapPopup(){
-				uni.redirectTo({
-					url:'../login/login'
-				})
+			/**
+			 * popup 状态发生变化触发
+			 * @param {Object} e
+			 */
+			changePop(e) {
+				console.log('popup ' + e.type + ' 状态', e.show)
+			},
+			/**
+			 * 对话框点击确认按钮
+			 */
+			dialogConfirm(done) {
+				this.$refs.popupDialog.open()
+				console.log('点击确认');
+				// 需要执行 done 才能关闭对话框
+				done()
+			},
+			/**
+			 * 对话框取消按钮
+			 */
+			dialogClose(done) {
+				
+
+				this.$refs.popupDialog.open()
+				// 需要执行 done 才能关闭对话框
+				done()
 			},
 			change(e) {
 				let {
@@ -187,7 +214,7 @@
 				uniGrid,
 				uniGridItem,
 				uniNavBar,
-				chunLeiPopups
+				uniPopupDialog
 			}
 	}
 </script>
@@ -217,16 +244,20 @@
 		text-align: center;
 	}
 	.content {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 	}
-
+	.contentpop{
+		position: relative;
+		z-index: 1000;
+	}
 	.map {
 		height: 400rpx;
 		width: 100%;
-		margin-top: 10rpx;
+		position: relative;
 		margin-left: auto;
 		margin-right: auto;
 		margin-bottom: 10rpx;
