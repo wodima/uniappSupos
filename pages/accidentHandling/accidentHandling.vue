@@ -6,29 +6,31 @@
 				<view class="flex-item uni-bg-green" @click="click3('shigu')">事故统计</view>
 				<view class="flex-item uni-bg-blue" @click="click4('zongjie')">事故总结</view>
 			</view>
-			<mescroll-body v-if="flag2" ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
+			<mescroll-body v-if="flag2" ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback"
+				@up="upCallback">
 				<view class="news-li" v-for="(news,index) in dataList" :key="index">
 					<!-- 一般用法 -->
 					<uni-card :is-shadow="true">
-						<view class="listcontent uni-flex uni-row view-style" style="-webkit-justify-content: space-between;justify-content: space-between;">
+						<view class="listcontent uni-flex uni-row view-style"
+							style="-webkit-justify-content: space-between;justify-content: space-between;">
 							<view class="textcontent">
 								<view>
-									<text class="text">{{news.name}}</text>
+									<text class="text">{{news.accidentTime}}</text>
 								</view>
 								<view>
-									<text class="text">{{news.name}}</text>
+									<text class="text">{{news.accidentName}}</text>
 								</view>
 								<view>
 									<text class="texttitle">事故等级：</text>
-									<text class="text">{{news.name}}</text>
+									<text class="text">{{news.accidentDegree}}</text>
 								</view>
 								<view>
 									<text class="texttitle">事故类型：</text>
-									<text class="text">{{news.name}}</text>
+									<text class="text">{{news.accidentType}}</text>
 								</view>
 								<view>
 									<text class="texttitle">事故地点：</text>
-									<text class="text">{{news.name}}</text>
+									<text class="text">{{news.accidentUnit}}</text>
 								</view>
 							</view>
 							<view class="buttom-style2">
@@ -50,27 +52,30 @@
 				</view>
 				<view v-if="flag5">
 					<!-- 列表 -->
-					<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
-						<view class="news-li" v-for="(news,index) in dataList" :key="index">
+					<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback"
+						@up="upCallback">
+						<view class="news-li" v-for="(news,index) in dataListType" :key="index">
 							<!-- 一般用法 -->
 							<uni-card :is-shadow="true">
-								<view class="listcontent uni-flex uni-row view-style" style="-webkit-justify-content: space-between;justify-content: space-between;">
+								<view class="listcontent uni-flex uni-row view-style"
+									style="-webkit-justify-content: space-between;justify-content: space-between;">
 									<view class="textcontent">
 										<view>
 											<text class="texttitle">序号：</text>
-											<text class="text">{{news.name}}</text>
+											<text class="text">{{news.id}}</text>
 										</view>
 										<view>
 											<text class="texttitle">事件类别：</text>
-											<text class="text">{{news.name}}</text>
+											<text class="text">{{news.accidentType}}</text>
 										</view>
 										<view>
 											<text class="texttitle">数量：</text>
-											<text class="text">{{news.name}}</text>
+											<text class="text">{{news.number}}</text>
 										</view>
 									</view>
-									<view class="buttom-style">
-										<router-link :to="{path:'./../accidentHandling/accidentSummaryDetails',query:{id:1}}">
+									<view class="buttom-style" v-if="false">
+										<router-link
+											:to="{path:'./../accidentHandling/accidentSummaryDetails',query:{id:1}}">
 											<image class="img-style" src="../../static/arrow-right.png" href=""></image>
 										</router-link>
 
@@ -83,27 +88,30 @@
 				</view>
 				<view v-if="flag6">
 					<!-- 列表 -->
-					<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
-						<view class="news-li" v-for="(news,index) in dataList" :key="index">
+					<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback"
+						@up="upCallback">
+						<view class="news-li" v-for="(news,index) in dataListType" :key="index">
 							<!-- 一般用法 -->
 							<uni-card :is-shadow="true">
-								<view class="listcontent uni-flex uni-row view-style" style="-webkit-justify-content: space-between;justify-content: space-between;">
+								<view class="listcontent uni-flex uni-row view-style"
+									style="-webkit-justify-content: space-between;justify-content: space-between;">
 									<view class="textcontent">
 										<view>
 											<text class="texttitle">序号：</text>
-											<text class="text">{{news.name}}</text>
+											<text class="text">{{news.id}}</text>
 										</view>
 										<view>
 											<text class="texttitle">事件类别：</text>
-											<text class="text">{{news.name}}</text>
+											<text class="text">{{news.accidentUnit}}</text>
 										</view>
 										<view>
 											<text class="texttitle">数量：</text>
-											<text class="text">{{news.name}}</text>
+											<text class="text">{{news.number}}</text>
 										</view>
 									</view>
 									<view class="buttom-style">
-										<router-link :to="{path:'./../accidentHandling/accidentSummaryDetails',query:{id:1}}">
+										<router-link
+											:to="{path:'./../accidentHandling/accidentSummaryDetails',query:{id:1}}">
 											<image class="img-style" src="../../static/arrow-right.png"></image>
 										</router-link>
 									</view>
@@ -115,45 +123,51 @@
 				</view>
 				<view class="qiun-charts" v-if="flag7">
 					<!--#ifdef MP-ALIPAY -->
-					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-					 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchPie($event,'canvasLineA')"></canvas>
+					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" :width="cWidth*pixelRatio"
+						:height="cHeight*pixelRatio" :style="{'width':cWidth+'px','height':cHeight+'px'}"
+						@touchstart="touchPie($event,'canvasLineA')"></canvas>
 					<!-- 使用图表拖拽功能时，建议给canvas增加disable-scroll=true属性，在拖拽时禁止屏幕滚动 -->
 					<!--#endif-->
 					<!--#ifndef MP-ALIPAY -->
-					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchPie($event,'canvasLineA')"></canvas>
+					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts"
+						@touchstart="touchPie($event,'canvasLineA')"></canvas>
 					<!-- 使用图表拖拽功能时，建议给canvas增加disable-scroll=true属性，在拖拽时禁止屏幕滚动 -->
 					<!--#endif-->
 				</view>
 				<view class="qiun-charts" v-if="flag8">
 					<!--#ifdef MP-ALIPAY -->
-					<canvas canvas-id="canvasPie" id="canvasPie" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-					 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchPie($event,'canvasPie')"></canvas>
+					<canvas canvas-id="canvasPie" id="canvasPie" class="charts" :width="cWidth*pixelRatio"
+						:height="cHeight*pixelRatio" :style="{'width':cWidth+'px','height':cHeight+'px'}"
+						@touchstart="touchPie($event,'canvasPie')"></canvas>
 					<!--#endif-->
 					<!--#ifndef MP-ALIPAY -->
-					<canvas canvas-id="canvasPie" id="canvasPie" class="charts" @touchstart="touchPie($event,'canvasPie')"></canvas>
+					<canvas canvas-id="canvasPie" id="canvasPie" class="charts"
+						@touchstart="touchPie($event,'canvasPie')"></canvas>
 					<!--#endif-->
 				</view>
 			</view>
 			<view v-if="flag4">
-				<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
+				<mescroll-body ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback"
+					@up="upCallback">
 					<view class="news-li" v-for="(news,index) in dataList" :key="index">
 						<!-- 一般用法 -->
 						<uni-card :is-shadow="true">
-							<view class="listcontent uni-flex uni-row view-style" style="-webkit-justify-content: space-between;justify-content: space-between;">
+							<view class="listcontent uni-flex uni-row view-style"
+								style="-webkit-justify-content: space-between;justify-content: space-between;">
 								<view class="textcontent">
 									<view>
-										<text class="text">{{news.name}}</text>
+										<text class="text">{{news.occurrenceTime}}</text>
 									</view>
 									<view>
-										<text class="text">{{news.name}}</text>
+										<text class="text">{{news.accidentName}}</text>
 									</view>
 									<view>
 										<text class="texttitle">事故单位：</text>
-										<text class="text">{{news.name}}</text>
+										<text class="text">{{news.accidentUnit}}</text>
 									</view>
 								</view>
 								<view class="buttom-style">
-									<router-link :to="{path:'./../accidentHandling/accidentSummaryDetails',query:{id:1}}">
+									<router-link :to="{path:'./../accidentHandling/accidentSummaryDetails',query:{dtl: news}}">
 										<image class="img-style" src="../../static/arrow-right.png"></image>
 									</router-link>
 								</view>
@@ -170,9 +184,9 @@
 	import uCharts from '@/components/u-charts/u-charts.js';
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	//导入网络请>>>>>>>需要加大括号
-	import {
-		getInfo
-	} from "../../api/accidentHandling.js"
+	// import {
+	// 	getInfo
+	// } from "../../api/accidentHandling.js"
 	var _self;
 	var canvasObj = {};
 	export default {
@@ -193,10 +207,14 @@
 				downOption: {
 					auto: false
 				}, //是否在初始化后,自动执行downCallback; 默认true
-				dataList: []
+				dataList: [],
+				dataListType: [], //事故类别
+
+				token: ''
 			}
 		},
 		onLoad() {
+			this.getManage() //获取事故处置信息
 			_self = this;
 			//#ifdef MP-ALIPAY
 			uni.getSystemInfo({
@@ -220,10 +238,6 @@
 
 			//this.fillData(Data);
 		},
-		// onReady() {
-
-		// 	debugger
-		// },
 		methods: {
 			getServerData(type1) {
 				uni.showLoading({
@@ -250,15 +264,34 @@
 				// this.sliderMax = data.Candle.categories.length;
 				let LineA = {
 					categories: [],
-					series: []
+					series: [{
+						name: "数量",
+						data: [],
+						color: '#409eff'
+					}]
 				};
 				let Pie = {
 					series: []
 				};
-				LineA.categories = data.LineA.categories;
-				LineA.series = data.LineA.series;
-				Pie.series = data.Pie.series;
-				// debugger
+				if (type1 == 1) {
+					for (let i = 0; i < data.result.length; i++) {
+						LineA.categories.push(data.result[i].time)
+						LineA.series[0].data.push(data.result[i].num)
+					}
+				} else {
+					for (let i = 0; i < data.result.list.length; i++) {
+						Pie.series.push({
+							name: data.result.list[i].improvementStatus,
+							data: data.result.list[i].number
+						})
+					}
+					console.log(Pie.series)
+				}
+
+				// LineA.categories = data.LineA.categories;
+				// LineA.series = data.LineA.series;
+				// Pie.series = data.Pie.series;
+				console.log(LineA)
 				if (type1 == 1) {
 					this.showLineA("canvasLineA", LineA);
 				} else {
@@ -294,8 +327,8 @@
 						itemCount: 4,
 						scrollShow: true,
 						scrollAlign: 'left',
-						//scrollBackgroundColor:'#F7F7FF',//可不填写，配合enableScroll图表拖拽功能使用，X轴滚动条背景颜色,默认为 #EFEBEF
-						//scrollColor:'#DEE7F7',//可不填写，配合enableScroll图表拖拽功能使用，X轴滚动条颜色,默认为 #A6A6A6
+						scrollBackgroundColor: '#F7F7FF', //可不填写，配合enableScroll图表拖拽功能使用，X轴滚动条背景颜色,默认为 #EFEBEF
+						scrollColor: '#DEE7F7', //可不填写，配合enableScroll图表拖拽功能使用，X轴滚动条颜色,默认为 #A6A6A6
 					},
 					yAxis: {
 						//disabled:true
@@ -359,26 +392,28 @@
 						this.flag6 = false
 						this.flag7 = false
 						this.flag8 = false
+						this.getType()
 						break
 					case 'shifa':
 						this.flag5 = false
 						this.flag6 = true
 						this.flag7 = false
 						this.flag8 = false
+						this.getUnit()
 						break
 					case 'yuefa':
 						this.flag5 = false
 						this.flag6 = false
 						this.flag7 = true
 						this.flag8 = false
-						this.getServerData(1);
+						this.getPerMonth();
 						break
 					case 'tongji':
 						this.flag5 = false
 						this.flag6 = false
 						this.flag7 = false
 						this.flag8 = true
-						this.getServerData(2);
+						this.getStatistics();
 						break
 				}
 			},
@@ -386,69 +421,138 @@
 				this.flag2 = true
 				this.flag3 = false
 				this.flag4 = false
-				console.log(e)
+				// console.log(e)
+				this.getManage()
 			},
 			click3: function(e) {
 				this.flag3 = true
 				this.flag5 = true
 				this.flag4 = false
 				this.flag2 = false
-				console.log(e)
+				this.getType()
+				// console.log(e)
 			},
 			click4: function(e) {
 				this.flag4 = true
 				this.flag2 = false
 				this.flag3 = false
+				this.getSummary()
 				console.log(e)
 			},
-			downCallback() {
-				//联网加载数据
-				getInfo({
-						ID: Date.now()
-					}, {})
-					.then(res => {
-						this.mescroll.endSuccess();
-						//设置列表数据
-						this.dataList.unshift(res.data.data);
-					})
-					.catch(err => {
-						//联网失败的回调,隐藏下拉刷新的状态
-						this.mescroll.endErr();
-					});
-			},
 			/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
-			upCallback(page) {
-				getInfo({
-						ID: Date.now()
-					}, {
-						pages: page.num,
-						size: page.size
-					})
-					.then(curPageData => {
-						console.log(curPageData.data.data);
-						//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
-						//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
-
-						//方法一(推荐): 后台接口有返回列表的总页数 totalPage
-						//this.mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
-
-						//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
-						//this.mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
-
-						//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
-						//this.mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
-
-						//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据.
-						this.mescroll.endSuccess(curPageData.length);
-
-						//设置列表数据
-						this.dataList = this.dataList.concat(curPageData.data.data);
-					})
-					.catch(err => {
-						//联网失败, 结束加载
-						this.mescroll.endErr();
-					})
+			getManage() {
+				// console.log(uni.getStorageSync('token'))
+				uni.request({
+					url: 'dev/openapi/objects/v1/properties/accidentReport/services/getTableData', //仅为示例，并非真实接口地址。
+					data: {},
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token')
+					},
+					success: (res) => {
+						this.dataList = res.data.result.list
+					}
+				});
 			},
+			//事故类别获取
+			getType() {
+				uni.request({
+					url: 'dev/openapi/objects/v1/properties/accidentReport/services/selectAccidentTypeNum', //仅为示例，并非真实接口地址。
+					data: {},
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token')
+					},
+					success: (res) => {
+						this.dataListType = res.data.result.list
+					}
+				});
+			},
+			//事发单位信息获取
+			getUnit() {
+				uni.request({
+					url: 'dev/openapi/objects/v1/properties/accidentReport/services/selectAccidentUnitNum', //仅为示例，并非真实接口地址。
+					data: {},
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token')
+					},
+					success: (res) => {
+						this.dataListType = res.data.result.list
+					}
+				});
+			},
+			//获取月份
+			getDateTime(number = 0) {
+				var nowdate = new Date();
+				nowdate.setMonth(nowdate.getMonth() + number);
+				var y = nowdate.getFullYear();
+				var m = nowdate.getMonth() + 1;
+				if (m < 10) {
+					m = '0' + m
+				}
+				var d = nowdate.getDate();
+				if (d < 10) {
+					m = '0' + d
+				}
+				var retrundate = y + '-' + m + '-' + d;
+				return retrundate;
+			},
+			//获取月发数量
+			getPerMonth() {
+				uni.request({
+					url: 'dev/openapi/objects/v1/properties/accidentReport/services/selAccidentNum', //仅为示例，并非真实接口地址。
+					data: {
+						"val1": this.getDateTime(0),
+						"val2": this.getDateTime(-11)
+					},
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token')
+					},
+					success: (res) => {
+						console.log(res);
+						// this.dataListType = res.data.result.list
+						_self.fillData(res.data, 1);
+					}
+				});
+			},
+			//获取统计数量
+			getStatistics() {
+				uni.request({
+					url: 'dev/openapi/objects/v1/properties/workImprovement/services/selectStatusNum', //仅为示例，并非真实接口地址。
+					data: {
+						"val1": this.getDateTime(0),
+						"val2": this.getDateTime(-11)
+					},
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token')
+					},
+					success: (res) => {
+						console.log(res);
+						// this.dataListType = res.data.result.list
+						_self.fillData(res.data, 2);
+					}
+				});
+			},
+		    //事故总结
+			getSummary(){
+				uni.request({
+					url: 'dev/openapi/objects/v1/properties/workImprovement/services/selectData', //仅为示例，并非真实接口地址。
+					data: {},
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token')
+					},
+					success: (res) => {
+						console.log(res);
+						this.dataList = res.data.result.list
+						console.log(res)
+						// _self.fillData(res.data, 2);
+					}
+				});
+			}
 		},
 	};
 </script>

@@ -6,71 +6,84 @@
 			<view class="flex-item uni-bg-green" @click="onclick('Program')">演练方案</view>
 			<view class="flex-item uni-bg-green" @click="onclick('summary')">演练总结</view>
 		</view>
-		
-		<mescroll-body v-if="flag == 'PLAN' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downCallback" @up="upCallback">
+
+		<mescroll-body v-if="flag == 'PLAN' " ref="mescrollRef" @init="mescrollInit" :down="downOption"
+			@down="downCallback" @up="upCallback">
 			<view class="news-li" v-for="(news,index) in dataList" :key="index" @click="planClick(index)">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
 					<view class="listcontent">
 						<view class="textcontent">
 							<view>
-								<text class="texttitle">危险工艺火灾事故应急演练计划：</text>
+								<text class="texttitle">演练名称：</text>
+								<text class="text">{{news.drillName}}</text>
 							</view>
 							<view>
-								<text class="text">2020-11-12 至 2020-12-24</text>
+								<text class="texttitle">计划时间：</text>
+								<text class="text">{{news.scheduledDate}}</text>
 							</view>
-							
+
 						</view>
 					</view>
 
 				</uni-card>
 			</view>
 		</mescroll-body>
-		<mescroll-body v-if="flag == 'Program' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downRightCallback" @up="upRightCallback">
-			<view class="news-li" v-for="(news,index) in dataList" :key="index" @click="drillClick(index)">
+		<mescroll-body v-if="flag == 'Program' " ref="mescrollRef" @init="mescrollInit" :down="downOption"
+			@down="downRightCallback" @up="upRightCallback">
+			<view class="news-li" v-for="(news,index) in dataList2" :key="index" @click="drillClick(index)">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
 					<view class="listcontent">
 						<view class="textcontent">
 							<view>
-								<text class="texttitle">火灾救援处置方案：</text>
-								<text class="text">{{news.name}}</text>
+								<text class="texttitle">方案名称：</text>
+								<text class="text">{{news.schemeName}}</text>
 							</view>
 							<view>
 								<text class="texttitle">创建单位：</text>
-								<text class="text">{{news.name}}</text>
+								<text class="text">{{news.creationUnit}}</text>
 							</view>
 							<view>
 								<text class="texttitle">创建时间：</text>
-								<text class="text">{{news.name}}</text>
+								<text class="text">{{news.creationTime}}</text>
+							</view>
+							<view>
+								<text class="texttitle">方案状态：</text>
+								<text class="text">{{news.schemeStatus}}</text>
 							</view>
 						</view>
 					</view>
-		
+
 				</uni-card>
 			</view>
 		</mescroll-body>
-		<mescroll-body v-if="flag == 'summary' " ref="mescrollRef" @init="mescrollInit" :down="downOption" @down="downRightCallback" @up="upRightCallback">
-			<view class="news-li" v-for="(news,index) in dataList" :key="index" @click="drillClick(index)">
+		<mescroll-body v-if="flag == 'summary' " ref="mescrollRef" @init="mescrollInit" :down="downOption"
+			@down="downRightCallback" @up="upRightCallback">
+			<view class="news-li" v-for="(news,index) in dataList3" :key="index" @click="drillClick(index)">
 				<!-- 一般用法 -->
 				<uni-card :is-shadow="true">
 					<view class="listcontent">
 						<view class="textcontent">
 							<view>
-								<text class="texttitle">危险工艺火灾事故应急演练总结：</text>
-								<text class="text">{{news.name}}</text>
+								<text class="texttitle">演练主题：</text>
+								<text class="text">{{news.drillThemeName}}</text>
 							</view>
 							<view>
-								<text class="texttitle">创建单位：</text>
-								<text class="text">{{news.name}}</text>
+								<text class="texttitle">演练名称：</text>
+								<text class="text">{{news.drillName}}</text>
+							</view>
+							<view>
+								<text class="texttitle">演练方案：</text>
+								<text class="text">{{news.schemeName}}</text>
 							</view>
 							<view>
 								<text class="texttitle">开始时间：</text>
-								<text class="text">{{news.name}}</text>
+								<text class="text">{{news.drillRecordStartTime}}</text>
 							</view>
 						</view>
 					</view>
-		
+
 				</uni-card>
 			</view>
 		</mescroll-body>
@@ -91,84 +104,69 @@
 					auto: false
 				}, //是否在初始化后,自动执行downCallback; 默认true
 				dataList: [],
-				flag:"PLAN"
+				dataList2: [],
+				dataList3: [],
+				flag: "PLAN"
 			}
 		},
 		onLoad() {
+			this.getEmergencyDrill();
+			this.getEvaluateInfo();
+			this.getDrillScheme();
 			console.log("页面加载onLoad")
 			// this.getdata()
 		},
 		methods: {
-			onclick(res){
+			onclick(res) {
 				this.flag = res
 			},
-			drillClick(res){
-				if(this.flag=='PLAN'){
+			drillClick(res) {
+				if (this.flag == 'PLAN') {
 					//演练计划
 					uni.navigateTo({
 						url: './../drillPlan/drillPlan'
 					});
-				}else if(this.flag=='Program'){
+				} else if (this.flag == 'Program') {
 					//演练方案
 					uni.navigateTo({
 						url: './../drillProgram/drillProgram'
 					});
-				}else if(this.flag=='summary'){
+				} else if (this.flag == 'summary') {
 					//演练总结
 					uni.navigateTo({
 						url: './../drillsummary/drillsummary'
 					});
 				}
-				
+
 			},
 			/*下拉刷新的回调 */
-			downCallback() {
+			getEmergencyDrill() {
 				//联网加载数据
-				getInfo({
-						ID: Date.now()
-					}, {})
-					.then(res => {
-						this.mescroll.endSuccess();
-						//设置列表数据
-						this.dataList.unshift(res.data.data);
-					})
-					.catch(err => {
-						//联网失败的回调,隐藏下拉刷新的状态
-						this.mescroll.endErr();
-					});
+				uni.request({
+					url: 'dev/openapi/objects/v1/properties/emergencyDrill/services/getInfo', //仅为示例，并非真实接口地址。
+					data: {},
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token')
+					},
+					success: (res) => {
+						this.dataList = res.data.result.list
+					}
+				});
 			},
 			/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
-			upCallback(page) {
-				getInfo({
-						ID: Date.now()
-					}, {
-						pages: page.num,
-						size: page.size
-					})
-					.then(curPageData => {
-						console.log(curPageData.data.data);
-						//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
-						//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
-
-						//方法一(推荐): 后台接口有返回列表的总页数 totalPage
-						//this.mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
-
-						//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
-						//this.mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
-
-						//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
-						//this.mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
-
-						//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据.
-						this.mescroll.endSuccess(curPageData.length);
-
-						//设置列表数据
-						this.dataList = this.dataList.concat(curPageData.data.data);
-					})
-					.catch(err => {
-						//联网失败, 结束加载
-						this.mescroll.endErr();
-					});
+			getDrillScheme(page) {
+				uni.request({
+					url: 'dev/openapi/objects/v1/properties/drillScheme/services/getTableData', //仅为示例，并非真实接口地址。
+					data: {},
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token')
+					},
+					success: (res) => {
+						this.dataList2 = res.data.result.list
+					}
+				});
 			},
 			/*右边下拉刷新的回调 */
 			downRightCallback() {
@@ -187,37 +185,18 @@
 					});
 			},
 			/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
-			upRightCallback(page) {
-				getRightInfo({
-						ID: Date.now()
-					}, {
-						pages: page.num,
-						size: page.size
-					})
-					.then(curPageData => {
-						console.log(curPageData.data.data);
-						//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
-						//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
-			
-						//方法一(推荐): 后台接口有返回列表的总页数 totalPage
-						//this.mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
-			
-						//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
-						//this.mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
-			
-						//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
-						//this.mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
-			
-						//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据.
-						this.mescroll.endSuccess(curPageData.length);
-			
-						//设置列表数据
-						this.dataList = this.dataList.concat(curPageData.data.data);
-					})
-					.catch(err => {
-						//联网失败, 结束加载
-						this.mescroll.endErr();
-					});
+			getEvaluateInfo(page) {
+				uni.request({
+					url: 'dev/openapi/objects/v1/properties/emergencyDrill/services/getEvaluateInfo', //仅为示例，并非真实接口地址。
+					data: {},
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token')
+					},
+					success: (res) => {
+						this.dataList3 = res.data.result.list
+					}
+				});
 			},
 		}
 	}
@@ -227,7 +206,7 @@
 	.flex-item {
 		width: 33.3%;
 		height: 120rpx;
-		
+
 		text-align: center;
 		line-height: 120rpx;
 		margin: 10rpx;
@@ -244,12 +223,14 @@
 	.textcontent {
 		text-align: left;
 	}
-	.texttitle{
+
+	.texttitle {
 		font-size: 26rpx;
 		font-weight: bold;
 		color: #000000;
 	}
-	.text{
+
+	.text {
 		font-size: 24rpx;
 		color: #000000;
 	}

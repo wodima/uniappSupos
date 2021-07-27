@@ -17,8 +17,9 @@
 			<!-- 饼状图 -->
 			<view class="qiun-columns">
 				<!--#ifdef MP-ALIPAY -->
-				<canvas canvas-id="canvasPie" id="canvasPie" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-				 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchPie"></canvas>
+				<canvas canvas-id="canvasPie" id="canvasPie" class="charts" :width="cWidth*pixelRatio"
+					:height="cHeight*pixelRatio" :style="{'width':cWidth+'px','height':cHeight+'px'}"
+					@touchstart="touchPie"></canvas>
 				<!--#endif-->
 				<!--#ifndef MP-ALIPAY -->
 				<canvas canvas-id="canvasPie" id="canvasPie" class="charts" @touchstart="touchPie"></canvas>
@@ -28,12 +29,32 @@
 
 		<view class="qiun-charts" v-if="flag == 'YM'|flag == 'YD'">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchColumn"></canvas>
+			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" :width="cWidth*pixelRatio"
+				:height="cHeight*pixelRatio" :style="{'width':cWidth+'px','height':cHeight+'px'}"
+				@touchstart="touchColumn"></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
 			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 			<!--#endif-->
+		</view>
+
+		<view v-if="flag == 'CD'" >
+			<view class="viewtitle">
+				<image class="image" @click="left" src="../../static/arrow-left.png"></image>
+				<view>{{year}}年{{month}}月</view>
+				<image class="image" @click="right" src="../../static/arrow-right.png"></image>
+			</view>
+
+			<view class="qiun-charts">
+				<!--#ifdef MP-ALIPAY -->
+				<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" :width="cWidth*pixelRatio"
+					:height="cHeight*pixelRatio" :style="{'width':cWidth+'px','height':cHeight+'px'}"
+					@touchstart="touchColumn"></canvas>
+				<!--#endif-->
+				<!--#ifndef MP-ALIPAY -->
+				<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+				<!--#endif-->
+			</view>
 		</view>
 	</view>
 </template>
@@ -54,42 +75,13 @@
 				cWidth: '',
 				cHeight: '',
 				pixelRatio: 1,
-
+				num: 0,
+				num2: 0,
 				year: 0,
 				month: 0,
+				year_cd: 0,
+				month_cd: 0,
 
-				chartData: {
-					"series": [{
-						"name": "一班",
-						"data": 50
-					}, {
-						"name": "二班",
-						"data": 30
-					}, {
-						"name": "三班",
-						"data": 20
-					}, {
-						"name": "四班",
-						"data": 18
-					}, {
-						"name": "五班",
-						"data": 8
-					}]
-				},
-				columnData:{
-					"categories": ["2013", "2014", "2015", "2016", "2017", "2018"],
-					"series": [{
-						"name": "",
-						"data": [35, 36, 31, 33, 13, 34]
-					}]
-				},
-				columnData2:{
-					"categories": ["1月", "2月", "3月", "4月", "5月", "6月"],
-					"series": [{
-						"name": "",
-						"data": [35, 36, 31, 33, 13, 34]
-					}]
-				}
 			}
 		},
 		onLoad() {
@@ -100,18 +92,85 @@
 			let nowData = new Date();
 			this.year = nowData.getFullYear()
 			this.month = nowData.getMonth() + 1
-			_self.showColumn('canvasColumn', _self.columnData)
+			this.getSelMonthSteamQuantity();
 		},
 		methods: {
+			fillData(data, type1) {
+				let LineA = {
+					categories: [],
+					series: [{
+						name: "数量",
+						data: [],
+						color: '#409eff'
+					}]
+				};
+				let LineB = {
+					categories: [],
+					series: [{
+						name: "数量",
+						data: [],
+						color: '#409eff'
+					}]
+				};
+				let LineC = {
+					categories: [],
+					series: [{
+						name: "数量",
+						data: [],
+						color: '#409eff'
+					}]
+				};
+				let Pie = {
+					series: []
+				};
+				if (type1 === 'YM') {
+					for (let i = 0; i < data.result.length; i++) {
+						LineA.categories.push(data.result[i].time)
+						LineA.series[0].data.push(data.result[i].num)
+					}
+				} else if (type1 === 'YD') {
+					if (data.result.length === 0) {
+						for (let i = 0; i <= 10; i++) {
+							var day = this.getDateTime2(i - 10).split("-", 3)[2]
+							LineB.categories.push(day)
+							LineB.series[0].data.push(0)
+						}
+					} else {
+						for (let i = 0; i < data.result.length; i++) {
+							LineB.categories.push(data.result[i].times.split("-", 3)[2])
+							LineB.series[0].data.push(data.result[i].num)
+						}
+					}
+				} else if (type1 === 'CM') {
+					for (let i = 0; i < data.result.length; i++) {
+						Pie.series.push({
+							name: data.result[i].companyName,
+							data: data.result[i].num
+						})
+					}
+				} else {
+					for (let i = 0; i < data.result.length; i++) {
+						LineC.categories.push(data.result[i].companyName)
+						LineC.series[0].data.push(data.result[i].num)
+					}
+				}
+				if (type1 === 'YM') {
+					this.showColumn("canvasColumn", LineA);
+				} else if (type1 === 'YD') {
+					this.showColumn("canvasColumn", LineB);
+				} else if (type1 === 'CM' && Pie.series.length !== 0) {
+					this.showPie('canvasPie', Pie)
+				} else if (type1 === 'CD' && LineC.series[0].data.length !== 0) {
+					this.showColumn("canvasColumn", LineC);
+				}
+			},
 			onclick(res) {
 				this.flag = res
-				if (this.flag == 'CM') {
-					_self.showPie('canvasPie', _self.chartData)
-				} else if (this.flag == 'YM') {
-					_self.showColumn('canvasColumn', _self.columnData)
-				}else if(this.flag == 'YD'){
-					_self.showColumn('canvasColumn', _self.columnData2)
-				}
+				// this.num = 0
+				// let nowData = new Date();
+				// this.year = nowData.getFullYear()
+				// this.month = nowData.getMonth() + 1
+				this.getSelMonthSteamQuantity()
 			},
 			left() {
 				this.month--
@@ -119,6 +178,8 @@
 					this.year--
 					this.month = 12
 				}
+				this.num--
+				this.getMonth()
 			},
 			//搜索
 			right() {
@@ -127,6 +188,50 @@
 					this.year++
 					this.month = 1
 				}
+				this.num++
+				this.getMonth()
+			},
+			getMonth() {
+				uni.showLoading({
+					title: "加载中",
+					mask: true,
+				});
+				uni.request({
+					url: 'dev/openapi/objects/v1/properties/EnergyStatistics/services/selMonthCompany', //仅为示例，并非真实接口地址。
+					data: {
+						"val1": this.getDate2(this.num),
+						"val2": this.getDate2(this.num)
+					},
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token_energy')
+					},
+					success: (res) => {
+						uni.hideLoading();
+						if (res.statusCode !== 200) {
+							if (res.statusCode === 401) {
+								this.getToken();
+								this.getEnergy();
+							} else {
+								uni.showToast({
+									title: '获取数据失败',
+									icon: "none",
+									mask: true,
+								})
+							}
+						} else {
+							this.fillData(res.data, this.flag)
+						}
+					},
+					fail: (error) => {
+						uni.hideLoading();
+						uni.showToast({
+							title: '请求接口失败',
+							icon: "none",
+							mask: true,
+						})
+					}
+				});
 			},
 			//圆饼图
 			showPie(canvasId, chartData) {
@@ -216,6 +321,157 @@
 					animation: true
 				});
 			},
+			getToken() {
+				uni.request({
+					url: 'dev/oauth2/client/v1/accessToken', //仅为示例，并非真实接口地址。
+					data: {
+						grantType: 'client_credential',
+						appid: 'App_1ff1b1c7a05f42b08ad44e1bf0233505',
+						secret: '5c0d1af1c3ee5ad7e437e3cd70945beb'
+					},
+					method: "GET", //method 有效值默认为get
+					header: {
+						'custom-header': 'hello' //自定义请求头信息
+					},
+					success: (res) => {
+						uni.setStorageSync('token_energy', res.data.accessToken)
+					}
+				});
+			},
+			//获取月度蒸汽消耗
+			getSelMonthSteamQuantity() {
+				var vales = {};
+				var url = '';
+				uni.showLoading({
+					title: "加载中",
+					mask: true,
+				});
+				switch (this.flag) {
+					case "YM": {
+						url =
+							'dev/openapi/objects/v1/properties/EnergyStatistics/services/selMonthSteamQuantity';
+						vales = {
+							"val1": this.getDateTime(0),
+							"val2": this.getDateTime(-11)
+						}
+						break;
+					}
+					case "YD": {
+						url =
+							'dev/openapi/objects/v1/properties/EnergyStatistics/services/selDaySteamQuantity';
+						vales = {
+							"val1": this.getDateTime2(0),
+							"val2": this.getDateTime2(-10)
+						}
+						break;
+					}
+					case "CM": {
+						url =
+							'dev/openapi/objects/v1/properties/EnergyStatistics/services/selMonthCompany';
+						vales = {
+							"val1": this.getDate2(this.num),
+							"val2": this.getDate2(this.num)
+						}
+						break;
+					}
+					case "CD": {
+						url =
+							'dev/openapi/objects/v1/properties/EnergyStatistics/services/selMonthCompany';
+						vales = {
+							"val1": this.getDate2(this.num),
+							"val2": this.getDate2(this.num)
+						}
+						console.log(vales)
+						break;
+					}
+				}
+				uni.request({
+					url: url, //仅为示例，并非真实接口地址。
+					data: vales,
+					dataType:"JSON",
+					method: "POST", //method 有效值默认为get
+					header: {
+						Authorization: 'Bearer ' + uni.getStorageSync('token_energy')
+					},
+					success: (res) => {
+						uni.hideLoading();
+						if (res.statusCode !== 200) {
+							if (res.statusCode === 401) {
+								this.getToken();
+								this.getEnergy();
+							} else {
+								uni.showToast({
+									title: '获取数据失败',
+									icon: "none",
+									mask: true,
+								})
+							}
+						} else {
+							this.fillData(res.data, this.flag)
+						}
+					},
+					fail: (error) => {
+						uni.hideLoading();
+						uni.showToast({
+							title: '请求接口失败',
+							icon: "none",
+							mask: true,
+						})
+					}
+				});
+			},
+			//获取月份
+			getDateTime(number = 0) {
+				var nowdate = new Date();
+				nowdate.setMonth(nowdate.getMonth() + number);
+				var y = nowdate.getFullYear();
+				var m = nowdate.getMonth() + 1;
+				if (m < 10) {
+					m = '0' + m
+				}
+				var d = nowdate.getDate();
+				if (d < 10) {
+					m = '0' + d
+				}
+				var retrundate = y + '-' + m + '-' + d;
+				return retrundate;
+			},
+			getDateTime2(number = 0) {
+				var nowdate = new Date();
+				nowdate.setTime(nowdate.getTime() + (24 * 3600 * 1000) * number);
+				var y = nowdate.getFullYear();
+				var m = nowdate.getMonth() + 1;
+				if (m < 10) {
+					m = '0' + m
+				}
+				var d = nowdate.getDate();
+				if (d < 10) {
+					d = '0' + d
+				}
+				var retrundate = y + '-' + m + '-' + d;
+				return retrundate;
+			},
+			getDate(number = 0) {
+				var nowdate = new Date();
+				nowdate.setTime(nowdate.getTime() + (24 * 3600 * 1000) * number);
+				var d = nowdate.getDate();
+				if (d < 10) {
+					d = '0' + d
+				}
+				var retrundate = d;
+				return retrundate;
+			},
+			getDate2(number = 0) {
+				var nowdate = new Date();
+				nowdate.setMonth(nowdate.getMonth() + number);
+				var y = nowdate.getFullYear();
+				var m = nowdate.getMonth() + 1;
+				if (m < 10) {
+					m = '0' + m
+				}
+				var retrundate = y + '-' + m;
+				return retrundate;
+			}
 		}
 	}
 </script>

@@ -8,11 +8,11 @@
 			<text class="title">事故单位：</text>
 			<text class="item">{{detailData.time}}</text>
 		</view>
-		<view>
+		<view v-if="false">
 			<text class="title">事故类型：</text>
 			<text class="item">{{detailData.type}}</text>
-		</view>
-		<view>
+		</view v-if="false">
+		<view v-if="false">
 			<text class="title">事故等级：</text>
 			<text class="item">{{detailData.level}}</text>
 		</view>
@@ -25,7 +25,7 @@
 			<text class="title">事故地点：</text>
 			<text class="item">{{detailData.address}}</text>
 		</view>
-		<view class="uni-flex uni-row">
+		<view class="uni-flex uni-row" v-if="false">
 			<view class="text-style">
 				<text class="title">死亡人数：</text>
 			    <text class="item">{{detailData.deathToll}}</text>
@@ -39,7 +39,7 @@
 			    <text class="item">{{detailData.seriouslyInjured}}</text>
 			</view>
 		</view>
-		<view>
+		<view v-if="false">
 			<text class="title">经济损失：</text>
 			<text class="item">{{detailData.eonomicLosses}}</text>
 		</view>
@@ -47,7 +47,7 @@
 			<text class="title">事故原因：</text>
 			<text class="item">{{detailData.reason}}</text>
 		</view>
-		<view>
+		<view v-if="false">
 			<text class="title">事故结果：</text>
 			<text class="item">{{detailData.consequence}}</text>
 		</view>
@@ -55,7 +55,7 @@
 			<text class="title">改进单位：</text>
 			<text class="item">{{detailData.improvementUnit}}</text>
 		</view>
-		<view>
+		<view v-if="false">
 			<text class="title">改进内容：</text>
 			<text class="item">{{detailData.improveContent}}</text>
 		</view>
@@ -71,7 +71,7 @@
 		data() {
 			return {
 				detailData: {
-					name: "危险工艺火灾事故应急演练计划",
+					name: "",
 					time: "2020-07-05 11:11:11 至 2020-09-05 11:11:11",
 					type: "常规演练",
 					level:"IV级",
@@ -88,6 +88,15 @@
 					improvementFollowUp:"改进完成"
 				}
 			}
+		},
+		onLoad() {
+			this.detailData.name = this.$route.query.dtl.accidentName;
+			this.detailData.time = this.$route.query.dtl.occurrenceTime;
+			this.detailData.unit = this.$route.query.dtl.accidentUnit;
+			this.detailData.address = this.$route.query.dtl.accidentPoint;
+			this.detailData.reason = this.$route.query.dtl.accidentReason;
+			this.detailData.improvementUnit = this.$route.query.dtl.improvementUnit;
+			this.detailData.improvementFollowUp = this.$route.query.dtl.improvementStatus;			
 		},
 		methods: {
 		}

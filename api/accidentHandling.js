@@ -12,15 +12,22 @@ import {
  * @param {Object} params - 查询params参数
  */
 export const getInfo = (data) => {
-	return http.middleware({
-		method: 'GET', // 必须大写
-		url: 'goods/getGoods',
-		data: data,
+	return uni.request({
+	    url: 'http://220.180.192.175:8081/openapi/objects/v1/properties/accidentReport/services/getTableData', //仅为示例，并非真实接口地址。
+	    data: {},
 		params: {
-			"type": "selectList"
+			  "objName": "accidentReport",
+			  "propName": "getTableData"
 		},
-		custom: {
-			auth: true
-		}
-	})
+	    method:"GET",//method 有效值默认为get
+	    header: {
+	    	 accept: 'application/json', //自定义请求头信息
+			 Content-Type:'application/json',
+			 Authorization:this.token
+	    },
+		
+	    success: (res) => {
+			console.log(res)
+	    }
+	});
 }

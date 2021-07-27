@@ -56,7 +56,7 @@
 			"path": "pages/textplan/textplan",
 			"style": {
 				"navigationBarTitleText": "文本预案",
-				"enablePullDownRefresh": true,
+				"enablePullDownRefresh": false,
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#007AFF"
 			}
@@ -110,7 +110,7 @@
 			"path": "pages/resources/resources",
 			"style": {
 				"navigationBarTitleText": "应急资源",
-				"enablePullDownRefresh": true,
+				"enablePullDownRefresh": false,
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#007AFF"
 			}
@@ -121,7 +121,7 @@
 			"path": "pages/device/device",
 			"style": {
 				"navigationBarTitleText": "设备设施状况",
-				"enablePullDownRefresh": true,
+				"enablePullDownRefresh": false,
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#007AFF"
 			}
